@@ -3,6 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { WalletsModule } from './wallets/wallets.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { CurrencyModule } from './currency/currency.module';
 
 @Module({
   imports: [
@@ -11,6 +12,8 @@ import { PrismaModule } from './prisma/prisma.module';
     // }),
     PrismaModule,
     WalletsModule,
+    CurrencyModule,
+    CurrencyModule
   ],
   controllers: [],
   providers: [],

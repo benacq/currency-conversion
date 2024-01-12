@@ -3,7 +3,7 @@ import { UpdateWalletDto } from "./dto/update-wallet.dto";
 import { CreateWalletDto } from "./dto/create-wallet.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { WalletEntity } from "./entities/wallet.entity";
-import { Money } from "src/currency/money";
+import { Money } from "src/currencyy/money";
 
 @Injectable()
 export class WalletsRepository {
@@ -22,7 +22,6 @@ export class WalletsRepository {
 
   async findOne(id: string): Promise<WalletEntity> {
     const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true } });
-
     return new WalletEntity(wallet.id, wallet.currency.code, Money.from(wallet.balance, wallet.currency), wallet.createdAt, wallet.updatedAt);
   }
 

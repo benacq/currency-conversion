@@ -14,7 +14,6 @@ import { ExchangeRatesModule } from './exchange-rates/exchange-rates.module';
     PrismaModule,
     WalletsModule,
     CurrencyModule,
-    CurrencyModule,
     ExchangeRatesModule
   ],
   controllers: [],

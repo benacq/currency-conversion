@@ -3,16 +3,23 @@ import { CurrencyRepository } from './currency.repository';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
 import { CreateCurrencyDto } from './dto/create-currency.dto';
 import { Currency } from '@prisma/client';
+import { ExchangeRatesService } from 'src/exchange-rates/exchange-rates.service';
 
 
 @Injectable()
 export class CurrencyService {
-  constructor(private currencyRepo: CurrencyRepository) { }
+  constructor(private currencyRepo: CurrencyRepository, private exchangeService: ExchangeRatesService) { }
 
 
   getFxRate(from:Currency, to: Currency){
-      // exchangeService.getRate(from.code, to.code)
+     this.exchangeService.getRate(from.code, to.code)
   }
+
+  
+
+  getFxRates(from:Currency){
+    this.exchangeService.getRates(from.code)
+ }
 
   create(createWalletDto: CreateCurrencyDto) {
     return this.currencyRepo.create(createWalletDto);

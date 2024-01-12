@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CurrencyService } from './currency.service';
 import { CreateCurrencyDto } from './dto/create-currency.dto';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
+import { CurrencyEntity } from './entities/currency.entity';
 
 @Controller('currency')
 export class CurrencyController {
@@ -14,6 +15,9 @@ export class CurrencyController {
 
   @Get()
   findAll() {
+    // this.currencyService.getFxRates(new CurrencyEntity(0, "GHS", "Ghana Cedi", "GHS"))
+    this.currencyService.getFxRate(new CurrencyEntity(0, "GHS", "Ghana Cedi", "GHS"), new CurrencyEntity(0, "EUR", "Ghana Cedi", "GHS"))
+
     return this.currencyService.findAll();
   }
 

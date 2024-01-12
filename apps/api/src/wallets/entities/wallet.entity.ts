@@ -15,4 +15,10 @@ export class WalletEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+
+
+    // public isCompatible(){
+    //     return this.balance.getCurrencyCode() === this.walletType
+    // }
 }

@@ -12,7 +12,7 @@ export class WalletsRepository {
   }
 
   findAll() {
-    return `This action returns all wallets`;
+    return this.prisma.wallet.findMany();
   }
 
   findOne(id: number) {

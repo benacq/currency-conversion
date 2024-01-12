@@ -23,14 +23,43 @@ enum TransactionType {
   CREDIT
 }
 
+model Currency {
+  id     Int          @id @default(autoincrement())
+  code   CurrencyCode @unique
+  name   String
+  symbol String
+
+  wallets             Wallet[]       @relation("Currency")
+  sourceExchangeRates ExchangeRate[] @relation("SourceCurrency")
+  targetExchangeRates ExchangeRate[] @relation("TargetCurrency")
+}
+
+// ExchangeRate model
+model ExchangeRate {
+  sourceCurrencyId Int
+  targetCurrencyId Int
+  rate             Float
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Foreign keys
+  sourceCurrency Currency @relation("SourceCurrency", fields: [sourceCurrencyId], references: [id])
+  targetCurrency Currency @relation("TargetCurrency", fields: [targetCurrencyId], references: [id])
+
+  // Composite primary key
+  @@id([sourceCurrencyId, targetCurrencyId])
+}
+
 model Wallet {
-  id           String       @id @default(uuid())
-  balance      Float
-  currencyCode CurrencyCode @unique
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id            String        @id @default(uuid())
+  balance       Float
+  currencyId    Int
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
   creditHistory Transaction[] @relation("destinationWallet")
   debitHistory  Transaction[] @relation("sourceWallet")
+  currency Currency @relation("Currency", fields: [currencyId], references: [id])
 }
 
 model Transaction {
@@ -41,10 +70,11 @@ model Transaction {
   exchangeRate Float
   status       Boolean
 
-  source              Wallet @relation(name: "sourceWallet", fields: [sourceWalletId], references: [id])
   sourceWalletId      String
-  destination         Wallet @relation(name: "destinationWallet", fields: [destinationWalletId], references: [id])
   destinationWalletId String
 
   timstamp DateTime @default(now())
+
+  source      Wallet @relation(name: "sourceWallet", fields: [sourceWalletId], references: [id])
+  destination Wallet @relation(name: "destinationWallet", fields: [destinationWalletId], references: [id])
 }

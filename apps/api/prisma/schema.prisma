@@ -23,39 +23,28 @@ enum TransactionType {
   CREDIT
 }
 
-// model Money{
-//   id Int @id @default(autoincrement())
-//   amount Float
-//   currencyCode CurrencyCode
-// }
-
 model Wallet {
-  id String @id @default(uuid())
-  balance Float
+  id           String       @id @default(uuid())
+  balance      Float
   currencyCode CurrencyCode @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // sentTransactions Transaction[] @relation("sender")
-  // receivedTransactions Transaction[] @relation("receiver")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  creditHistory Transaction[] @relation("destinationWallet")
+  debitHistory  Transaction[] @relation("sourceWallet")
 }
 
 model Transaction {
-  id String @id
-  type TransactionType
-  amount Float
+  id           String          @id
+  type         TransactionType
+  amount       Float
   currencyCode CurrencyCode
   exchangeRate Float
-  status Boolean
+  status       Boolean
+
+  source              Wallet @relation(name: "sourceWallet", fields: [sourceWalletId], references: [id])
+  sourceWalletId      String
+  destination         Wallet @relation(name: "destinationWallet", fields: [destinationWalletId], references: [id])
+  destinationWalletId String
+
   timstamp DateTime @default(now())
 }
-
-// model Transaction {
-//   id Int @id @default(autoincrement())
-//   from  Wallet   @relation(name: "sender", fields: [senderWalletId], references: [id])
-//   senderWalletId Int
-//   to Wallet  @relation(name: "receiver", fields: [receiverWalletId], references: [id])
-//   receiverWalletId Int
-//   amount Float
-//   timstamp DateTime @default(now())
-// }

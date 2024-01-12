@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
 import { WalletsRepository } from './wallets.repository';
+import { WalletEntity } from './entities/wallet.entity';
+
 
 @Injectable()
 export class WalletsService {
@@ -12,18 +14,21 @@ export class WalletsService {
   }
 
   findAll() {
+    // const money: Money = new GHS(345.43)
+    
     return this.walletRepo.findAll();
   }
 
-  findOne(id: number) {
-    return this.walletRepo.findOne(id);
+  async findOne(id: string){
+    const wallet = await this.walletRepo.findOne(id);
+    return wallet;
   }
 
-  update(id: number, updateWalletDto: UpdateWalletDto) {
+  update(id: string, updateWalletDto: UpdateWalletDto) {
     return this.walletRepo.update(id, updateWalletDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.walletRepo.remove(id);
   }
 }

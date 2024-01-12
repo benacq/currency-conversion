@@ -3,7 +3,7 @@ import { UpdateWalletDto } from "./dto/update-wallet.dto";
 import { CreateWalletDto } from "./dto/create-wallet.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { WalletEntity } from "./entities/wallet.entity";
-import { Money } from "src/currencyy/money";
+import { Money } from "src/currency/entities/money";
 
 @Injectable()
 export class WalletsRepository {

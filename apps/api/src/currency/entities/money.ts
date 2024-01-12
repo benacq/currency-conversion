@@ -1,5 +1,4 @@
 import { Currency } from '.prisma/client';
-import { CurrencyCode } from "@prisma/client";
 
 
 export abstract class Money {

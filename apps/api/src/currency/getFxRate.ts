@@ -9,7 +9,6 @@ class RemoteFxRate implements FxRate {
     getFxRate(fromCurrency: string, toCurrency: string) {
         throw new Error("Method not implemented.");
     }
-
 }
 
 class LocalFxRate implements FxRate {

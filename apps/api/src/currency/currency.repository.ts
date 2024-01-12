@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { Money } from "src/currencyy/money";
+import { Money } from "src/currency/entities/money";
 import { CreateCurrencyDto } from "./dto/create-currency.dto";
 import { UpdateCurrencyDto } from "./dto/update-currency.dto";
-import { CurrencyEntity } from "src/currencyy/currency";
+import { CurrencyEntity } from "./entities/currency.entity";
 
 @Injectable()
 export class CurrencyRepository {

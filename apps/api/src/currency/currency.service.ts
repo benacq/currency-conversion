@@ -2,19 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { CurrencyRepository } from './currency.repository';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
 import { CreateCurrencyDto } from './dto/create-currency.dto';
+import { Currency } from '@prisma/client';
 
 
 @Injectable()
 export class CurrencyService {
   constructor(private currencyRepo: CurrencyRepository) { }
 
+
+  getFxRate(from:Currency, to: Currency){
+      // exchangeService.getRate(from.code, to.code)
+  }
+
   create(createWalletDto: CreateCurrencyDto) {
     return this.currencyRepo.create(createWalletDto);
   }
 
   findAll() {
-    // const money: Money = new GHS(345.43)
-
     return this.currencyRepo.findAll();
   }
 

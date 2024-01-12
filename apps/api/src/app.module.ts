@@ -4,6 +4,7 @@ import { join } from 'path';
 import { WalletsModule } from './wallets/wallets.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { CurrencyModule } from './currency/currency.module';
+import { ExchangeRatesModule } from './exchange-rates/exchange-rates.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { CurrencyModule } from './currency/currency.module';
     PrismaModule,
     WalletsModule,
     CurrencyModule,
-    CurrencyModule
+    CurrencyModule,
+    ExchangeRatesModule
   ],
   controllers: [],
   providers: [],

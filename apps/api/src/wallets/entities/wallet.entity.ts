@@ -1,5 +1,5 @@
 import { $Enums, CurrencyCode, Wallet } from "@prisma/client";
-import { Money } from "src/currencyy/money";
+import { Money } from "src/currency/entities/money";
 
 export class WalletEntity {
     readonly id: string;

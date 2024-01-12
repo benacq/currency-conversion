@@ -5,6 +5,7 @@ import { WalletsModule } from './wallets/wallets.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { CurrencyModule } from './currency/currency.module';
 import { ExchangeRatesModule } from './exchange-rates/exchange-rates.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ExchangeRatesModule } from './exchange-rates/exchange-rates.module';
     PrismaModule,
     WalletsModule,
     CurrencyModule,
-    ExchangeRatesModule
+    ExchangeRatesModule,
+    TransactionsModule
   ],
   controllers: [],
   providers: [],

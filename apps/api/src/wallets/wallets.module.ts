@@ -4,10 +4,11 @@ import { WalletsController } from './wallets.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { WalletsRepository } from './wallets.repository';
 import { ExchangeRatesModule } from 'src/exchange-rates/exchange-rates.module';
+import { TransactionsModule } from 'src/transactions/transactions.module';
 
 @Module({
   controllers: [WalletsController],
   providers: [WalletsService, WalletsRepository],
-  imports: [PrismaModule, ExchangeRatesModule]
+  imports: [PrismaModule, ExchangeRatesModule, TransactionsModule]
 })
 export class WalletsModule {}

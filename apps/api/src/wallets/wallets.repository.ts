@@ -4,6 +4,8 @@ import { CreateWalletDto } from "./dto/create-wallet.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { WalletEntity } from "./entities/wallet.entity";
 import { Money } from "src/currency/entities/money";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 @Injectable()
 export class WalletsRepository {
@@ -39,5 +41,14 @@ export class WalletsRepository {
 
   remove(id: string) {
     return this.prisma.wallet.delete({ where: { id } });
+  }
+
+  // transaction(func: any){
+  //   // return this.prisma.$transaction((txn)=>func(txn))
+    
+  // }
+
+  async transaction(callback: (txn: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => Promise<any>) {
+    await this.prisma.$transaction((txn)=>callback(txn));
   }
 }

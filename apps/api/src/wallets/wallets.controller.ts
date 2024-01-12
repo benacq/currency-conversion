@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
 import { WalletsService } from './wallets.service';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
@@ -9,8 +9,9 @@ export class WalletsController {
 
 
   @Post("/convert")
+  @HttpCode(200)
   convertCurrency(@Body() convertionDto: {sourceWalletId:string, targetWalletId:string, amount: number}) {
-    return this.walletsService.convert(convertionDto.sourceWalletId, convertionDto.targetWalletId, convertionDto.amount);
+    return this.walletsService.convert(convertionDto.sourceWalletId, convertionDto.targetWalletId, convertionDto.amount).then(()=>"Conversion successful");
   }
   
   @Post()

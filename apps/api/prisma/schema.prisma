@@ -23,6 +23,12 @@ enum TransactionType {
   CREDIT
 }
 
+enum TransactionStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
 model Currency {
   id     Int          @id @default(autoincrement())
   code   CurrencyCode @unique
@@ -63,12 +69,11 @@ model Wallet {
 }
 
 model Transaction {
-  id           String          @id
+  id           String            @id @default(uuid())
   type         TransactionType
   amount       Float
   currencyCode CurrencyCode
-  exchangeRate Float
-  status       Boolean
+  status       TransactionStatus
 
   sourceWalletId      String
   destinationWalletId String

@@ -14,19 +14,27 @@ export class WalletsRepository {
   }
 
   async findAll(): Promise<WalletEntity[]> {
-    const wallets = await this.prisma.wallet.findMany({ include: { currency: true } });
+    const wallets = await this.prisma.wallet.findMany({ include: { currency: true, creditHistory: true, debitHistory: true } });
+    console.log(wallets)
     return wallets.map((wallet) =>
       new WalletEntity(wallet.id, wallet.currency.code, Money.from(wallet.balance, wallet.currency), wallet.createdAt, wallet.updatedAt)
     )
   }
 
   async findOne(id: string): Promise<WalletEntity> {
-    const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true } });
+    const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true, creditHistory: true, debitHistory: true } });
     return new WalletEntity(wallet.id, wallet.currency.code, Money.from(wallet.balance, wallet.currency), wallet.createdAt, wallet.updatedAt);
   }
 
-  update(id: string, updateWalletDto: UpdateWalletDto) {
-    return `This action updates a #${id} wallet`;
+  async update(id: string, updateWalletDto: UpdateWalletDto) {
+    try {
+      return await this.prisma.wallet.update({
+        where: { id },
+        data: updateWalletDto
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   remove(id: string) {

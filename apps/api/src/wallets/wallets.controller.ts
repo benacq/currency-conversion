@@ -7,6 +7,12 @@ import { UpdateWalletDto } from './dto/update-wallet.dto';
 export class WalletsController {
   constructor(private readonly walletsService: WalletsService) {}
 
+
+  @Post("/convert")
+  convertCurrency(@Body() convertionDto: {sourceWalletId:string, targetWalletId:string, amount: number}) {
+    return this.walletsService.convert(convertionDto.sourceWalletId, convertionDto.targetWalletId, convertionDto.amount);
+  }
+  
   @Post()
   create(@Body() createWalletDto: CreateWalletDto) {
     return this.walletsService.create(createWalletDto);

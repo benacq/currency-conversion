@@ -8,15 +8,14 @@ import { ExchangeRatesService } from 'src/exchange-rates/exchange-rates.service'
 
 @Injectable()
 export class CurrencyService {
-  constructor(private currencyRepo: CurrencyRepository, private exchangeService: ExchangeRatesService) { }
+  constructor(private currencyRepo: CurrencyRepository, private exchangeRateService: ExchangeRatesService) { }
 
 
   getFxRate(from:CurrencyCode, to: CurrencyCode){
-     return this.exchangeService.getRate(from, to)
+     return this.exchangeRateService.getRate(from, to)
   }
 
   getFxRates(from:CurrencyCode){
-    return this.exchangeService.getRates(from)
+    return this.exchangeRateService.getRates(from)
  }
-
 }

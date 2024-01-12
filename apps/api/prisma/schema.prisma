@@ -51,15 +51,15 @@ model ExchangeRate {
 }
 
 model Wallet {
-  id            String        @id @default(uuid())
-  balance       Float
-  currencyId    Int
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id         String   @id @default(uuid())
+  balance    Float
+  currencyId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   creditHistory Transaction[] @relation("destinationWallet")
   debitHistory  Transaction[] @relation("sourceWallet")
-  currency Currency @relation("Currency", fields: [currencyId], references: [id])
+  currency      Currency      @relation("Currency", fields: [currencyId], references: [id])
 }
 
 model Transaction {

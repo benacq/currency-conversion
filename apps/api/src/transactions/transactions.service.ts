@@ -7,11 +7,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class TransactionsService {
   constructor(private prisma: PrismaService) { }
 
-  create(createTransactionDto: CreateTransactionDtoUntagged) {
-    console.log(createTransactionDto)
-    return this.prisma.transaction.create({ data: createTransactionDto }).catch((err)=>{
+  async create(createTransactionDto: CreateTransactionDtoUntagged) {
+    try {
+      return await this.prisma.transaction.create({ data: createTransactionDto });
+    } catch (err) {
       throw err;
-    })
+    }
   }
 
   findAll() {

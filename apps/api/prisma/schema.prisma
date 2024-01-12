@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CurrencyCode {
+  NGN
+  GHS
+  USD
+  KES
+  EUR
+}
+
+// model Money{
+//   id Int @id @default(autoincrement())
+//   amount Float
+//   currencyCode CurrencyCode
+// }
+
+model Wallet {
+  id Int @id @default(autoincrement())
+  balance Float
+  currencyCode CurrencyCode
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // sentTransactions Transaction[] @relation("sender")
+  // receivedTransactions Transaction[] @relation("receiver")
+}
+
+
+// model Transaction {
+//   id Int @id @default(autoincrement())
+//   from  Wallet   @relation(name: "sender", fields: [senderWalletId], references: [id])
+//   senderWalletId Int
+//   to Wallet  @relation(name: "receiver", fields: [receiverWalletId], references: [id])
+//   receiverWalletId Int
+//   amount Float
+//   timstamp DateTime @default(now())
+// }

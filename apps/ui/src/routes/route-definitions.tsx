@@ -8,6 +8,10 @@ import withNav from '../components/hocs/withNav'
 import Conversions from '../pages/conversions'
 import Wallets from '../pages/wallets'
 
+interface WalletParams {
+  wallet?: string;
+  convert?: boolean;
+}
 
 
 const rootRoute = new RootRoute({
@@ -19,10 +23,16 @@ const rootRoute = new RootRoute({
   )),
 })
 
-const indexRoute = new Route({
+export const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: Wallets
+  component: Wallets,
+  validateSearch: (search: WalletParams): WalletParams => {
+    return {
+      wallet: search.wallet || undefined,
+      convert: search.convert || undefined
+    }
+  },
 })
 
 const conversionsRoute = new Route({

@@ -16,10 +16,9 @@ const withNav = <P extends WithNavProps>(WrappedComponent: ComponentType<P>) => 
                 </div>
 
                 <div className="flex-1 ml-[15%] bg-light1 min-h-screen">
-                    <Nav/>
+                    <Nav />
                     <div className='px-8 mt-12'>
-                    <WrappedComponent {...props} />
-
+                        <WrappedComponent {...props} />
                     </div>
                 </div>
             </div>

@@ -8,14 +8,20 @@
 
 
 @layer base {
-
+  h1 {
+    @apply font-bold text-xlg;
+  }
 }
 
-@layer components {}
+@layer components {
+  .card{
+    @apply h-28 w-48 block  rounded-t-lg
+  }
+}
 
 @layer utilities {
   .side-menu-item {
-    @apply [&>a.active]:bg-light3 [&>a]:p-2 [&>a]:rounded-lg [&>a]:flex [&>a]:gap-3 [&>a]:items-center
+    @apply [&>a.active]:bg-light3 [&>a]:p-3 [&>a]:rounded-lg [&>a]:flex [&>a]:gap-3 [&>a]:items-center
   }
 }
 

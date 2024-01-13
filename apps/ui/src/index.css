@@ -8,8 +8,14 @@
 
 
 @layer base {
+  body{
+    @apply text-gray1
+  }
   h1 {
-    @apply font-bold text-xlg;
+    @apply font-bold text-xxlg;
+  }
+  h3 {
+    @apply font-semibold text-md;
   }
 }
 

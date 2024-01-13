@@ -1,3 +1,5 @@
+import { columns, dummyTransactions } from "../components/table/columns"
+import { DataTable } from "../components/table/datatable"
 import WalletCard from "../components/wallet-card"
 
 type Props = {}
@@ -19,14 +21,24 @@ function Wallets({ }: Props) {
 
 
       <div className="mt-10">
-        <div className="flex gap-10">
-            <WalletCard link="ghc"/>
+        <div className="flex gap-6">
+          <WalletCard link="ghc" />
 
-            <WalletCard link="usd"/>
+          <WalletCard link="usd" />
 
-            <WalletCard link="gbp"/>
+          <WalletCard link="gbp" />
 
-            <WalletCard link="eur"/>
+          <WalletCard link="eur" />
+        </div>
+
+        <div className="bg-white border-b rounded-b-lg pb-4">
+          <div className="pt-6 p-4">
+            <h3>Transaction history</h3>
+          </div>
+
+          <div>
+            <DataTable columns={columns} data={dummyTransactions} />
+          </div>
 
         </div>
       </div>

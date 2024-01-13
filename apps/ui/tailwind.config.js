@@ -23,12 +23,14 @@ export default {
         "orange1": "#ec880b",
         "orange2": "#f5ebdf",
         'gray1': "#101828",
+        'gray2': "#667085",
         "brown1": "#53433C"
       },
       fontSize: {
-        'xlg': '30px',
-        'lg': '24px',
-        'md': '20px',
+        'xxlg': '30px',
+        'xlg': '24px',
+        'lg': '20px',
+        "md": "18px",
         'sm': '16px',
         'xsm': '14px',
         "xxsm": "12px",
@@ -45,7 +47,7 @@ export default {
       margin: {
         'page-split': '15%',
       },
-      
+
     },
   },
   plugins: [],

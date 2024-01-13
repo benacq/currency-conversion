@@ -1,4 +1,4 @@
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -10,16 +10,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel()
+        // getPaginationRowModel: getPaginationRowModel()
     })
-
-
 
     return (
         <>
-            <table>
+            <table className="min-w-full divide-y divide-gray-200">
                 <thead>
-                    <tr>
+                    <tr className="[&>th]:text-start [&>th]:px-6 [&>th]:py-4 border-t text-xxsm text-gray2">
                         {table.getHeaderGroups()[0].headers.map((header) => (
                             <th key={header.id}>
                                 {header.isPlaceholder
@@ -32,22 +30,32 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 </thead>
 
 
-                <tbody>
+                <tbody className="divide-y divide-gray-200">
                     {table.getRowModel().rows.map((row) =>
                     (
-                        <tr key={row.id}>
+                        <tr key={row.id} className="[&>td]:px-6 [&>td]:py-4 text-xsm !border-b">
 
                             {row.getVisibleCells().map((cell) => (
                                 <td key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
-
                         </tr>
-                    )
-                    )}
+                    ))}
                 </tbody>
             </table>
+
+            <div className="flex justify-between px-5 mt-6">
+                <div>page no</div>
+                <div className="flex">
+                    <button>
+                        Previous
+                    </button>
+                    <button>
+                        Next
+                    </button>
+                </div>
+            </div>
 
         </>
     )

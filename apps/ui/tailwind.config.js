@@ -24,7 +24,9 @@ export default {
         "orange2": "#f5ebdf",
         'gray1': "#101828",
         'gray2': "#667085",
-        "brown1": "#53433C"
+        "brown1": "#53433C",
+        "green1": "#ECFDF3",
+        "green2": "#027A48"
       },
       fontSize: {
         'xxlg': '30px',

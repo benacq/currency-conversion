@@ -1,6 +1,8 @@
+import Modal from "../components/modal"
 import { columns, dummyTransactions } from "../components/table/columns"
 import { DataTable } from "../components/table/datatable"
 import WalletCard from "../components/wallet-card"
+import Conversions from "./conversions"
 
 type Props = {}
 
@@ -8,6 +10,9 @@ function Wallets({ }: Props) {
 
   return (
     <div>
+      <Modal title="Convert funds">
+        <Conversions />
+      </Modal>
       <div className="flex justify-between items-center">
         <div>
           <h1>Wallets</h1>
@@ -18,7 +23,6 @@ function Wallets({ }: Props) {
           <button>Convert</button>
         </div>
       </div>
-
 
       <div className="mt-10">
         <div className="flex gap-6">

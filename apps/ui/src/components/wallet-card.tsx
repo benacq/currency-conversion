@@ -7,7 +7,6 @@ type Props = {
 
 const WalletCard = (props: Props) => {
     const searchParams = indexRoute.useSearch()
-    // console.log(searchParams)
 
     return (
         <div>

@@ -7,7 +7,17 @@
 
 
 
+@layer base {
 
+}
+
+@layer components {}
+
+@layer utilities {
+  .side-menu-item {
+    @apply [&>a.active]:bg-light3 [&>a]:p-2 [&>a]:rounded-lg [&>a]:flex [&>a]:gap-3 [&>a]:items-center
+  }
+}
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

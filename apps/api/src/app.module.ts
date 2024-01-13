@@ -9,9 +9,9 @@ import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, '../..', 'ui', 'dist'),
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'ui', 'dist'),
+    }),
     PrismaModule,
     WalletsModule,
     CurrencyModule,

@@ -44,9 +44,6 @@ export class WalletsService {
 
 
   async convert(sourceWalletId: string, targetWalletId: string, amount: number): Promise<void> {
-
-
-
     if (sourceWalletId === targetWalletId) throw new Error("Conversion between same wallet is not possible");
     const sourceWallet: WalletEntity = await this.walletRepo.findOne(sourceWalletId)//c12831ff-f36a-4933-be7e-4ae80d7f363e GHS   
     const targetWallet: WalletEntity = await this.walletRepo.findOne(targetWalletId) // 4a235fa1-abf1-4d2c-b196-03ff5fd8412d NGN

@@ -1,4 +1,4 @@
-import { $Enums, Currency, CurrencyCode, Wallet } from "@prisma/client";
+import { $Enums, Currency, CurrencyCode, Transaction, Wallet } from "@prisma/client";
 import { Money } from "src/currency/entities/money";
 
 export class WalletEntity {
@@ -8,12 +8,18 @@ export class WalletEntity {
     readonly createdAt: Date;
     readonly updatedAt: Date;
 
-    constructor(id: string, walletType: CurrencyCode, balance: Money, createdAt: Date, updatedAt: Date) {
+    readonly debitHistory: Transaction[];
+    readonly creditHistory: Transaction[];
+
+
+    constructor(id: string, walletType: CurrencyCode, balance: Money, createdAt: Date, updatedAt: Date, debitHistory: Transaction[], creditHistory: Transaction[]) {
         this.walletType = walletType;
         this.id = id;
         this.balance = balance;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.debitHistory = debitHistory;
+        this.creditHistory = creditHistory;
     }
 
     getBalance(): number {

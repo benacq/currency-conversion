@@ -4,6 +4,9 @@ CREATE TYPE "CurrencyCode" AS ENUM ('NGN', 'GHS', 'USD', 'KES', 'EUR');
 -- CreateEnum
 CREATE TYPE "TransactionType" AS ENUM ('DEBIT', 'CREDIT');
 
+-- CreateEnum
+CREATE TYPE "TransactionStatus" AS ENUM ('IN_PROGRESS', 'COMPLETED', 'FAILED');
+
 -- CreateTable
 CREATE TABLE "Currency" (
     "id" SERIAL NOT NULL,
@@ -42,8 +45,7 @@ CREATE TABLE "Transaction" (
     "type" "TransactionType" NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
     "currencyCode" "CurrencyCode" NOT NULL,
-    "exchangeRate" DOUBLE PRECISION NOT NULL,
-    "status" BOOLEAN NOT NULL,
+    "status" "TransactionStatus" NOT NULL,
     "sourceWalletId" TEXT NOT NULL,
     "destinationWalletId" TEXT NOT NULL,
     "timstamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

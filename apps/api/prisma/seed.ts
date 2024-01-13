@@ -60,9 +60,9 @@ async function createCurrencies() {
 
 }
 
-
+[]
 async function createExchangeRates() {
-    const fx1 = await prisma.exchangeRate.upsert({
+    const fxGH1 = await prisma.exchangeRate.upsert({
         where: {
             sourceCurrencyId_targetCurrencyId: {
                 sourceCurrencyId: 1,
@@ -77,8 +77,7 @@ async function createExchangeRates() {
         }
     })
 
-
-    const fx2 = await prisma.exchangeRate.upsert({
+    const fxGH2 = await prisma.exchangeRate.upsert({
         where: {
             sourceCurrencyId_targetCurrencyId: {
                 sourceCurrencyId: 1,
@@ -87,14 +86,13 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 2.533,
+            rate: 80.04,
             sourceCurrency: { connect: { id: 1 } },
             targetCurrency: { connect: { id: 2 } }
         }
     })
 
-
-    const fx3 = await prisma.exchangeRate.upsert({
+    const fxGH3 = await prisma.exchangeRate.upsert({
         where: {
             sourceCurrencyId_targetCurrencyId: {
                 sourceCurrencyId: 1,
@@ -103,14 +101,13 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 4.533,
+            rate: 13.22,
             sourceCurrency: { connect: { id: 1 } },
             targetCurrency: { connect: { id: 3 } }
         }
     })
 
-
-    const fx4 = await prisma.exchangeRate.upsert({
+    const fxGH4 = await prisma.exchangeRate.upsert({
         where: {
             sourceCurrencyId_targetCurrencyId: {
                 sourceCurrencyId: 1,
@@ -119,14 +116,13 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 0.533,
+            rate: 0.084,
             sourceCurrency: { connect: { id: 1 } },
             targetCurrency: { connect: { id: 4 } }
         }
     })
 
-
-    const fx5 = await prisma.exchangeRate.upsert({
+    const fxGH5 = await prisma.exchangeRate.upsert({
         where: {
             sourceCurrencyId_targetCurrencyId: {
                 sourceCurrencyId: 1,
@@ -135,13 +131,336 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 6.533,
+            rate: 0.076,
             sourceCurrency: { connect: { id: 1 } },
             targetCurrency: { connect: { id: 5 } }
         }
     })
+    console.log({ fxGH1, fxGH2, fxGH3, fxGH4, fxGH5 })
 
-    console.log({ fx1, fx2, fx3, fx4, fx5 })
+
+
+
+    const fxNG1 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 2,
+                targetCurrencyId: 1
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.012,
+            sourceCurrency: { connect: { id: 2 } },
+            targetCurrency: { connect: { id: 1 } }
+        }
+    })
+
+    const fxNG2 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 2,
+                targetCurrencyId: 2
+            }
+        },
+        update: {},
+        create: {
+            rate: 1,
+            sourceCurrency: { connect: { id: 2 } },
+            targetCurrency: { connect: { id: 2 } }
+        }
+    })
+
+    const fxNG3 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 2,
+                targetCurrencyId: 3
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.17,
+            sourceCurrency: { connect: { id: 2 } },
+            targetCurrency: { connect: { id: 3 } }
+        }
+    })
+
+    const fxNG4 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 2,
+                targetCurrencyId: 4
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.010,
+            sourceCurrency: { connect: { id: 2 } },
+            targetCurrency: { connect: { id: 4 } }
+        }
+    })
+
+    const fxNG5 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 2,
+                targetCurrencyId: 5
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.00095,
+            sourceCurrency: { connect: { id: 2 } },
+            targetCurrency: { connect: { id: 5 } }
+        }
+    })
+
+    console.log({ fxNG1, fxNG2, fxNG3, fxNG4, fxNG5 })
+
+
+
+
+    const fxKES1 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 3,
+                targetCurrencyId: 1
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.076,
+            sourceCurrency: { connect: { id: 3 } },
+            targetCurrency: { connect: { id: 1 } }
+        }
+    })
+
+    const fxKES2 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 3,
+                targetCurrencyId: 2
+            }
+        },
+        update: {},
+        create: {
+            rate: 6.05,
+            sourceCurrency: { connect: { id: 3 } },
+            targetCurrency: { connect: { id: 2 } }
+        }
+    })
+
+    const fxKES3 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 3,
+                targetCurrencyId: 3
+            }
+        },
+        update: {},
+        create: {
+            rate: 1,
+            sourceCurrency: { connect: { id: 3 } },
+            targetCurrency: { connect: { id: 3 } }
+        }
+    })
+
+    const fxKES4 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 3,
+                targetCurrencyId: 4
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.0063,
+            sourceCurrency: { connect: { id: 3 } },
+            targetCurrency: { connect: { id: 4 } }
+        }
+    })
+
+    const fxKES5 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 3,
+                targetCurrencyId: 5
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.0058,
+            sourceCurrency: { connect: { id: 3 } },
+            targetCurrency: { connect: { id: 5 } }
+        }
+    })
+
+    console.log({ fxKES1, fxKES2, fxKES3, fxKES4, fxKES5 })
+
+
+
+
+
+
+    const fxUSD1 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 4,
+                targetCurrencyId: 1
+            }
+        },
+        update: {},
+        create: {
+            rate: 11.96,
+            sourceCurrency: { connect: { id: 4 } },
+            targetCurrency: { connect: { id: 1 } }
+        }
+    })
+
+    const fxUSD2 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 4,
+                targetCurrencyId: 2
+            }
+        },
+        update: {},
+        create: {
+            rate: 957.51,
+            sourceCurrency: { connect: { id: 4 } },
+            targetCurrency: { connect: { id: 2 } }
+        }
+    })
+
+    const fxUSD3 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 4,
+                targetCurrencyId: 3
+            }
+        },
+        update: {},
+        create: {
+            rate: 158.15,
+            sourceCurrency: { connect: { id: 4 } },
+            targetCurrency: { connect: { id: 3 } }
+        }
+    })
+
+    const fxUSD4 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 4,
+                targetCurrencyId: 4
+            }
+        },
+        update: {},
+        create: {
+            rate: 1,
+            sourceCurrency: { connect: { id: 4 } },
+            targetCurrency: { connect: { id: 4 } }
+        }
+    })
+
+    const fxUSD5 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 4,
+                targetCurrencyId: 5
+            }
+        },
+        update: {},
+        create: {
+            rate: 0.91,
+            sourceCurrency: { connect: { id: 4 } },
+            targetCurrency: { connect: { id: 5 } }
+        }
+    })
+
+    console.log({ fxUSD1, fxUSD2, fxUSD3, fxUSD4, fxUSD5 })
+
+
+
+
+
+
+    const fxEUR1 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 5,
+                targetCurrencyId: 1
+            }
+        },
+        update: {},
+        create: {
+            rate: 13.12,
+            sourceCurrency: { connect: { id: 5 } },
+            targetCurrency: { connect: { id: 1 } }
+        }
+    })
+
+    const fxEUR2 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 5,
+                targetCurrencyId: 2
+            }
+        },
+        update: {},
+        create: {
+            rate: 1049.96,
+            sourceCurrency: { connect: { id: 5 } },
+            targetCurrency: { connect: { id: 2 } }
+        }
+    })
+
+    const fxEUR3 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 5,
+                targetCurrencyId: 3
+            }
+        },
+        update: {},
+        create: {
+            rate: 173.42,
+            sourceCurrency: { connect: { id: 5 } },
+            targetCurrency: { connect: { id: 3 } }
+        }
+    })
+
+    const fxEUR4 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 5,
+                targetCurrencyId: 4
+            }
+        },
+        update: {},
+        create: {
+            rate: 1.10,
+            sourceCurrency: { connect: { id: 5 } },
+            targetCurrency: { connect: { id: 4 } }
+        }
+    })
+
+    const fxEUR5 = await prisma.exchangeRate.upsert({
+        where: {
+            sourceCurrencyId_targetCurrencyId: {
+                sourceCurrencyId: 5,
+                targetCurrencyId: 5
+            }
+        },
+        update: {},
+        create: {
+            rate: 1,
+            sourceCurrency: { connect: { id: 5 } },
+            targetCurrency: { connect: { id: 5 } }
+        }
+    })
+
+    console.log({ fxEUR1, fxEUR2, fxEUR3, fxEUR4, fxEUR5 })
 
 }
 
@@ -205,12 +524,6 @@ async function main() {
         createExchangeRates().then(() =>
             createWallets())
     );
-
-
-
-
-
-
 }
 
 main()

@@ -15,8 +15,9 @@ const WalletCard = (props: Props) => {
             <Link onClick={()=> props.onSelect(props.wallet as WalletWithTransactions)} search={{ wallet: props.wallet.walletType }} className={`card p-4 ${searchParams.wallet === props.wallet.walletType ? "bg-white1" : "bg-light2"}`}>
                 <div className='flex flex-col justify-between h-full'>
                     <div className='flex gap-2 items-center'>
-
-                        {props.wallet.balance.currency.flag ? (<img src={props.wallet.balance.currency.flag} className="h-4 rounded-full" />) : (<p>flag</p>)}
+                            {/* <img src="https://flagsapi.com/BE/shiny/64.png" alt="alt" /> */}
+                            
+                        {props.wallet.balance.currency.flag ? (<img src={props.wallet.balance.currency.flag} className="h-5 rounded-full" />) : (<p>flag</p>)}
                         
                         <p className={`text-xsm ${searchParams.wallet !== props.wallet.walletType && "text-gray2"}`}>{props.wallet.walletType}</p>
                     </div>

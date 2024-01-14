@@ -34,6 +34,7 @@ model Currency {
   code   CurrencyCode @unique
   name   String
   symbol String
+  flag String
 
   wallets             Wallet[]       @relation("Currency")
   sourceExchangeRates ExchangeRate[] @relation("SourceCurrency")
@@ -65,6 +66,7 @@ model Wallet {
 
   creditHistory Transaction[] @relation("destinationWallet")
   debitHistory  Transaction[] @relation("sourceWallet")
+  
   currency      Currency      @relation("Currency", fields: [currencyId], references: [id])
 }
 
@@ -78,7 +80,7 @@ model Transaction {
   sourceWalletId      String
   destinationWalletId String
 
-  timstamp DateTime @default(now())
+  timestamp DateTime @default(now())
 
   source      Wallet @relation(name: "sourceWallet", fields: [sourceWalletId], references: [id])
   destination Wallet @relation(name: "destinationWallet", fields: [destinationWalletId], references: [id])

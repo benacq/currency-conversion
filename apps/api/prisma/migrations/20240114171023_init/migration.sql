@@ -13,6 +13,7 @@ CREATE TABLE "Currency" (
     "code" "CurrencyCode" NOT NULL,
     "name" TEXT NOT NULL,
     "symbol" TEXT NOT NULL,
+    "flag" TEXT NOT NULL,
 
     CONSTRAINT "Currency_pkey" PRIMARY KEY ("id")
 );
@@ -48,7 +49,7 @@ CREATE TABLE "Transaction" (
     "status" "TransactionStatus" NOT NULL,
     "sourceWalletId" TEXT NOT NULL,
     "destinationWalletId" TEXT NOT NULL,
-    "timstamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
 );

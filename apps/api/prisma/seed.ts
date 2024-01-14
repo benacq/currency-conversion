@@ -3,6 +3,11 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+
+
+
+
+
 async function createCurrencies() {
     const currency1 = await prisma.currency.upsert({
         where: { id: 1 },
@@ -10,7 +15,8 @@ async function createCurrencies() {
         create: {
             name: "Ghana Cedi",
             code: "GHS",
-            symbol: "GH₵"
+            symbol: "GH₵",
+            flag: "https://flagsapi.com/GH/shiny/64.png"
         }
     })
 
@@ -20,7 +26,8 @@ async function createCurrencies() {
         create: {
             name: "Naira",
             code: "NGN",
-            symbol: "₦"
+            symbol: "₦",
+            flag: "https://flagsapi.com/NG/shiny/64.png"
         }
     })
 
@@ -30,7 +37,8 @@ async function createCurrencies() {
         create: {
             name: "Kenyan Shilling",
             code: "KES",
-            symbol: "KSh"
+            symbol: "KSh",
+            flag: "https://flagsapi.com/KE/shiny/64.png"
         }
     })
 
@@ -41,7 +49,8 @@ async function createCurrencies() {
         create: {
             name: "United States Dollar",
             code: "USD",
-            symbol: "$"
+            symbol: "$",
+            flag: "https://flagsapi.com/US/shiny/64.png"
         }
     })
 
@@ -52,7 +61,8 @@ async function createCurrencies() {
         create: {
             name: "Euro",
             code: "EUR",
-            symbol: "€"
+            symbol: "€",
+            flag: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Europe_flag_circle.png"
         }
     })
 
@@ -60,7 +70,8 @@ async function createCurrencies() {
 
 }
 
-[]
+
+
 async function createExchangeRates() {
     const fxGH1 = await prisma.exchangeRate.upsert({
         where: {
@@ -150,7 +161,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 0.012,
+            rate: 1 / 80.04,
             sourceCurrency: { connect: { id: 2 } },
             targetCurrency: { connect: { id: 1 } }
         }
@@ -195,7 +206,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 0.010,
+            rate: 0.0010,
             sourceCurrency: { connect: { id: 2 } },
             targetCurrency: { connect: { id: 4 } }
         }
@@ -230,7 +241,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 0.076,
+            rate: 1 / 13.22,
             sourceCurrency: { connect: { id: 3 } },
             targetCurrency: { connect: { id: 1 } }
         }
@@ -245,7 +256,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 6.05,
+            rate: 1 / 0.17,
             sourceCurrency: { connect: { id: 3 } },
             targetCurrency: { connect: { id: 2 } }
         }
@@ -312,7 +323,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 11.96,
+            rate: 1 / 0.084,
             sourceCurrency: { connect: { id: 4 } },
             targetCurrency: { connect: { id: 1 } }
         }
@@ -327,7 +338,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 957.51,
+            rate: 1 / 0.0010,
             sourceCurrency: { connect: { id: 4 } },
             targetCurrency: { connect: { id: 2 } }
         }
@@ -342,7 +353,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 158.15,
+            rate: 1 / 0.0063,
             sourceCurrency: { connect: { id: 4 } },
             targetCurrency: { connect: { id: 3 } }
         }
@@ -394,7 +405,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 13.12,
+            rate: 1 / 0.076,
             sourceCurrency: { connect: { id: 5 } },
             targetCurrency: { connect: { id: 1 } }
         }
@@ -409,7 +420,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 1049.96,
+            rate: 1 / 0.00095,
             sourceCurrency: { connect: { id: 5 } },
             targetCurrency: { connect: { id: 2 } }
         }
@@ -424,7 +435,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 173.42,
+            rate: 1 / 0.0058,
             sourceCurrency: { connect: { id: 5 } },
             targetCurrency: { connect: { id: 3 } }
         }
@@ -439,7 +450,7 @@ async function createExchangeRates() {
         },
         update: {},
         create: {
-            rate: 1.10,
+            rate: 1 / 0.91,
             sourceCurrency: { connect: { id: 5 } },
             targetCurrency: { connect: { id: 4 } }
         }
@@ -470,7 +481,7 @@ async function createWallets() {
         where: { id: "dd4da438-2f9b-474e-b54a-e7edfd135ce8" },
         update: {},
         create: {
-            balance: 500.00,
+            balance: 545200.00,
             currencyId: 1
         }
     })
@@ -479,7 +490,7 @@ async function createWallets() {
         where: { id: "ac48c1d5-1b7f-4f94-b3b8-f4773bfedc32" },
         update: {},
         create: {
-            balance: 500000.00,
+            balance: 45500000.00,
             currencyId: 2
         }
     })
@@ -489,18 +500,17 @@ async function createWallets() {
         where: { id: "49c48e25-b4bf-4e17-9823-cd3e36ec3f0e" },
         update: {},
         create: {
-            balance: 2300.00,
+            balance: 432300.00,
             currencyId: 4
 
         }
     })
 
-
     const wallet4 = await prisma.wallet.upsert({
         where: { id: "0e5f8d40-38c9-4d68-9245-35e6b801a8a8" },
         update: {},
         create: {
-            balance: 1500.00,
+            balance: 134500.00,
             currencyId: 5
 
         }
@@ -510,7 +520,7 @@ async function createWallets() {
         where: { id: "dd4da438-2f9b-474e-b54a-e7edfd135ce8" },
         update: {},
         create: {
-            balance: 8900.00,
+            balance: 83900.00,
             currencyId: 3
         }
     })

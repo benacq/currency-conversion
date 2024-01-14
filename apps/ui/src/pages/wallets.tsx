@@ -74,7 +74,7 @@ function Wallets({ }: Props) {
           </div>
 
           <div>
-            {selectedWallet && (<DataTable columns={columns} data={selectedWallet?.creditHistory as Transaction[]} />)}
+            {selectedWallet && (<DataTable columns={columns} data={selectedWallet?.transactionHistory as Transaction[]} />)}
           </div>
         </div>
       </div>

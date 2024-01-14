@@ -16,13 +16,13 @@ export class CurrencyRepository {
     async findAll(): Promise<CurrencyEntity[]> {
         const wallets = await this.prisma.currency.findMany();
         return wallets.map((currency) =>
-            new CurrencyEntity(currency.id, currency.code, currency.name, currency.symbol)
+            new CurrencyEntity(currency.id, currency.code, currency.name, currency.symbol, currency.flag)
         )
     }
 
     async findOne(id: number): Promise<CurrencyEntity> {
         const currency = await this.prisma.currency.findUnique({ where: { id } });
-        return new CurrencyEntity(currency.id, currency.code, currency.name, currency.symbol)
+        return new CurrencyEntity(currency.id, currency.code, currency.name, currency.symbol, currency.flag)
 
     }
 

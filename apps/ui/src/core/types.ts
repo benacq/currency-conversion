@@ -28,8 +28,7 @@ export interface Wallet {
 }
 
 export interface WalletWithTransactions extends Wallet {
-    creditHistory: Transaction[]
-    debitHistory: Transaction[]
+    transactionHistory: Transaction[]
 }
 
 

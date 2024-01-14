@@ -7,10 +7,10 @@ export class WalletEntity {
     readonly balance: Money;
     readonly createdAt: Date;
     readonly updatedAt: Date;
-    readonly transactionHistory: Transaction[];
+    readonly transactionHistory: Transaction[] | undefined;
 
 
-    constructor(id: string, walletType: CurrencyCode, balance: Money, createdAt: Date, updatedAt: Date, transactionHistory: Transaction[]) {
+    constructor(id: string, walletType: CurrencyCode, balance: Money, createdAt: Date, updatedAt: Date, transactionHistory: Transaction[] | undefined) {
         this.walletType = walletType;
         this.id = id;
         this.balance = balance;

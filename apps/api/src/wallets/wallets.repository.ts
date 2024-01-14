@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { UpdateWalletDto } from "./dto/update-wallet.dto";
 import { CreateWalletDto } from "./dto/create-wallet.dto";
 import { PrismaService } from "src/prisma/prisma.service";
@@ -6,6 +6,7 @@ import { WalletEntity } from "./entities/wallet.entity";
 import { Money } from "src/currency/entities/money";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
+import { NotFoundException } from "./exceptions/customExceptions";
 
 @Injectable()
 export class WalletsRepository {
@@ -15,16 +16,30 @@ export class WalletsRepository {
     return 'This action adds a new wallet';
   }
 
-  async findAll(): Promise<WalletEntity[]> {
-    const wallets = await this.prisma.wallet.findMany({ include: { currency: true, creditHistory: true, debitHistory: true } });
-    return wallets.map((wallet) =>
-      new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, [...wallet.debitHistory, ...wallet.creditHistory])
-    )
+  async findAll(addTransactions: boolean): Promise<WalletEntity[]> {
+    try {
+      const wallets = await this.prisma.wallet.findMany({ include: { currency: true, creditHistory: Boolean(addTransactions), debitHistory: Boolean(addTransactions) } });
+      if (wallets.length === 0) {
+        console.info("Wallet is empty")
+      }
+      return wallets.map((wallet) =>
+        new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, addTransactions ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined)
+      )
+    } catch (e) {
+      console.error(e)
+      throw new HttpException("Something went wrong while getting wallets", HttpStatus.BAD_REQUEST)
+    }
   }
 
-  async findOne(id: string): Promise<WalletEntity> {
-    const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true, creditHistory: true, debitHistory: true } });
-    return new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, [...wallet.debitHistory, ...wallet.creditHistory]);
+  async findOne(id: string, addTransactions: boolean): Promise<WalletEntity> {
+    try {
+      const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true, creditHistory: Boolean(addTransactions), debitHistory: Boolean(addTransactions) } });
+      return new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, addTransactions ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined);
+    } catch (error) {
+      console.error(error)
+      throw new NotFoundException("This wallet does not exist in our records")
+    }
+
   }
 
   async update(id: string, updateWalletDto: UpdateWalletDto) {
@@ -34,7 +49,8 @@ export class WalletsRepository {
         data: updateWalletDto
       });
     } catch (err) {
-      console.log(err);
+      console.error(err)
+      throw new HttpException("Could not update wallet", HttpStatus.BAD_REQUEST)
     }
   }
 
@@ -43,6 +59,6 @@ export class WalletsRepository {
   }
 
   async transaction(callback: (txn: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => Promise<any>) {
-    await this.prisma.$transaction((txn)=>callback(txn));
+    await this.prisma.$transaction((txn) => callback(txn));
   }
 }

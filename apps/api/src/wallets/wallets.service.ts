@@ -8,6 +8,7 @@ import { ExchangeRatesService } from 'src/exchange-rates/exchange-rates.service'
 import { TransactionsService } from 'src/transactions/transactions.service';
 import { CreateTransactionDtoUntagged } from 'src/transactions/dto/create-transaction.dto';
 import { CurrencyCode, TransactionStatus, TransactionType } from '@prisma/client';
+import { ConversionException, TransactionException } from './exceptions/customExceptions';
 
 @Injectable()
 export class WalletsService {
@@ -25,7 +26,7 @@ export class WalletsService {
     }
 
     this.transactionService.create({ ...transactionData, status: TransactionStatus.FAILED })
-    throw new Error(`Cannot credit incompatible currencies: ${money.getCurrency().code} => ${wallet.walletType}`)
+    throw new TransactionException(`Cannot credit incompatible currencies: ${money.getCurrency().code} => ${wallet.walletType}`)
   }
 
   debit(wallet: WalletEntity, amount: number, beneficiaryWalletId: string): void {
@@ -37,16 +38,17 @@ export class WalletsService {
       this.transactionService.create({ ...transactionData, status: TransactionStatus.COMPLETED })
     } else {
       this.transactionService.create({ ...transactionData, status: TransactionStatus.FAILED })
-      throw new Error("Insufficient funds")
+      throw new TransactionException("You do not have sufficient fund to perform this transaction")
     }
   }
 
 
 
   async convert(sourceWalletId: string, targetWalletId: string, amount: number): Promise<void> {
-    if (sourceWalletId === targetWalletId) throw new Error("Conversion between same wallet is not possible");
-    const sourceWallet: WalletEntity = await this.walletRepo.findOne(sourceWalletId)//c12831ff-f36a-4933-be7e-4ae80d7f363e GHS   
-    const targetWallet: WalletEntity = await this.walletRepo.findOne(targetWalletId) // 4a235fa1-abf1-4d2c-b196-03ff5fd8412d NGN
+    if (amount <= 0) throw new ConversionException("Minimum conversion amount is 1 unit of all currencies");
+    if (sourceWalletId === targetWalletId) throw new ConversionException("Conversion between same wallet is not possible");
+    const sourceWallet: WalletEntity = await this.walletRepo.findOne(sourceWalletId, false)//c12831ff-f36a-4933-be7e-4ae80d7f363e GHS   
+    const targetWallet: WalletEntity = await this.walletRepo.findOne(targetWalletId, false) // 4a235fa1-abf1-4d2c-b196-03ff5fd8412d NGN
 
     const rate = await this.exchangeRateService.getRate(sourceWallet.walletType, targetWallet.walletType)
     const rateValue = rate[sourceWallet.walletType][targetWallet.walletType]
@@ -62,14 +64,12 @@ export class WalletsService {
     return this.walletRepo.create(createWalletDto);
   }
 
-  findAll() {
-    // const money: Money = new GHS(345.43)
-
-    return this.walletRepo.findAll();
+  findAll(addTransactions: boolean) {
+    return this.walletRepo.findAll(addTransactions);
   }
 
-  async findOne(id: string) {
-    const wallet = await this.walletRepo.findOne(id);
+  async findOne(id: string, addTransactions: boolean) {
+    const wallet = await this.walletRepo.findOne(id, addTransactions);
     return wallet;
   }
 

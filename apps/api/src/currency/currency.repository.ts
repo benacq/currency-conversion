@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable, NotFoundException, NotImplementedException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Money } from "src/currency/entities/money";
 import { CreateCurrencyDto } from "./dto/create-currency.dto";
@@ -21,13 +21,17 @@ export class CurrencyRepository {
     }
 
     async findOne(id: number): Promise<CurrencyEntity> {
-        const currency = await this.prisma.currency.findUnique({ where: { id } });
-        return new CurrencyEntity(currency.id, currency.code, currency.name, currency.symbol, currency.flag)
+        try {
+            const currency = await this.prisma.currency.findUnique({ where: { id } });
+            return new CurrencyEntity(currency.id, currency.code, currency.name, currency.symbol, currency.flag)    
+        } catch (error) {
+            throw new NotFoundException("This currency is not supportted at the moment")
+        }
 
     }
 
     update(id: number, updateWalletDto: UpdateCurrencyDto) {
-        return `This action updates a #${id} wallet`;
+        return new NotImplementedException("No implementation to update currency", "Currency update is an internal operation")
     }
 
     remove(id: number) {

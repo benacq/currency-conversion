@@ -21,9 +21,12 @@ export default {
         "light4": "#e4dfdd",
         'white1': "#ffffff",
         "orange1": "#ec880b",
-        "orange2": "#f5ebdf",
+        "orange2": "#f5ebdf", 
+        "orange3":"#fdefe2",
+        "orange4": "#fef8f1",
         'gray1': "#101828",
         'gray2': "#667085",
+        'gray3': "#475467",
         "brown1": "#53433C",
         "green1": "#ECFDF3",
         "green2": "#027A48"

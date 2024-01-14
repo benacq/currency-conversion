@@ -1,12 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
+import { Transaction } from "../../core/types";
 
-export type Transaction = {
-  transactionId: string;
-  transactionType: 'Debit' | 'Credit'
-  amount: string;
-  status: string;
-  date: string;
-}
 
 export const columns: ColumnDef<Transaction>[] = [
   {

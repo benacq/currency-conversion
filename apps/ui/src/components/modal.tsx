@@ -1,6 +1,7 @@
 import { useRouter } from "@tanstack/react-router";
 import { indexRoute } from "../routes/route-definitions";
 import { motion } from "framer-motion"
+import { AiOutlineClose } from "react-icons/ai";
 
 type Props = {
     title:string;
@@ -37,7 +38,8 @@ const Modal = (props: Props) => {
                                 <div>
                                     <h2>{props.title}</h2>
                                 </div>
-                                <button onClick={() => router.history.back()}>Close Modal</button>
+                                <AiOutlineClose size={20} className="cursor-pointer" onClick={() => router.history.back()}/>
+
                             </div>
 
                             <div className="mt-6">

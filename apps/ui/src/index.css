@@ -45,16 +45,28 @@
   h3 {
     @apply font-semibold text-md;
   }
+
+  input{
+    @apply w-full h-full rounded-r-lg outline-none px-2
+  }
+
+  button{
+    @apply h-[44px] bg-orange1 w-full rounded-lg text-white1
+  }
 }
 
 @layer components {
   .card{
-    @apply h-28 w-52 block  rounded-t-lg
+    @apply h-28 w-52 block rounded-t-lg
   }
 }
 
 @layer utilities {
   .side-menu-item {
     @apply [&>a.active]:bg-light3 [&>a]:p-3 [&>a]:rounded-lg [&>a]:flex [&>a]:gap-3 [&>a]:items-center
+  }
+
+  .input{
+    @apply h-[40px] w-full rounded-lg border flex items-center last:flex-grow gap-1 pl-2
   }
 }

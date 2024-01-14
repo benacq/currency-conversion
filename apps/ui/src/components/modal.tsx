@@ -39,7 +39,6 @@ const Modal = (props: Props) => {
                                     <h2>{props.title}</h2>
                                 </div>
                                 <AiOutlineClose size={20} className="cursor-pointer" onClick={() => router.history.back()}/>
-
                             </div>
 
                             <div className="mt-6">

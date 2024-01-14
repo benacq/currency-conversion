@@ -1,30 +1,37 @@
-import { Link } from "@tanstack/react-router"
-import useCustomQuery from "../components/hooks/useCustomQuery"
+import { Link, useNavigate } from "@tanstack/react-router"
 import Modal from "../components/modal"
-import { columns, dummyTransactions } from "../components/table/columns"
+import { columns } from "../components/table/columns"
 import { DataTable } from "../components/table/datatable"
 import WalletCard from "../components/wallet-card"
-import { getWallets } from "../core/requests/wallets"
-import { Transaction, Wallet } from "../core/types"
+import { Transaction, WalletWithTransactions } from "../core/types"
 import Conversions from "./conversions"
 import { LuArrowLeftRight } from "react-icons/lu";
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { indexRoute } from "../routes/route-definitions"
 
 
 type Props = {}
 
 function Wallets({ }: Props) {
+  const navigate = useNavigate();
   const searchParams = indexRoute.useSearch();
+  const wallets = indexRoute.useLoaderData();
 
-  const query = useCustomQuery<Wallet[]>(
-    ['wallets'],
-    getWallets,
-  )
+  const [selectedWallet, setSelectedWallet] = useState<WalletWithTransactions>()
 
-  const [transactions, setTransasctions] = useState<Transaction[]>([])
+  useEffect(() => {
+    if (wallets) {
+      console.log(wallets[0])
+      const defaultSelectedWallet =  wallets[0]
+      console.log(searchParams.wallet)
+      if(searchParams.wallet === undefined){
+        navigate({ to: "/", search: { wallet: defaultSelectedWallet.walletType } })
+        setSelectedWallet(defaultSelectedWallet as WalletWithTransactions)
+      }
+    }
+  }, [])
 
-  // console.log(query)
+
 
   return (
     <div>
@@ -38,7 +45,7 @@ function Wallets({ }: Props) {
         </div>
 
         <div>
-          <Link search={{ convert: true }}>
+          <Link search={{ wallet: searchParams.wallet, convert: true }}>
             <button className="flex justify-center items-center px-6 gap-2">
               <LuArrowLeftRight />
               <div>
@@ -46,56 +53,31 @@ function Wallets({ }: Props) {
               </div>
             </button>
           </Link>
-
         </div>
       </div>
 
-      {query.isPending ? (<>
-        <div>
-          Loading...
+
+
+      <div className="mt-10">
+        <div className="flex gap-6">
+
+          {wallets.map((wallet) => (
+            <React.Fragment key={wallet.id}>
+              <WalletCard wallet={wallet} onSelect={(selectedWallet) => setSelectedWallet(selectedWallet)} />
+            </React.Fragment>
+          ))}
         </div>
 
-      </>) : (<>
-
-        {query.isError ? (<>
-
-          <div>Something went wrong</div>
-
-        </>) : (<>
-
-
-          <div className="mt-10">
-            <div className="flex gap-6">
-
-              {query.data.map((wallet) => (
-                <React.Fragment key={wallet.id}>
-                  <WalletCard wallet={ wallet} />
-                </React.Fragment>
-
-              ))}
-
-            </div>
-
-            <div className="bg-white border-b rounded-b-lg pb-4">
-              <div className="pt-6 p-4">
-                <h3>Transaction history</h3>
-              </div>
-
-              <div>
-                <DataTable columns={columns} data={dummyTransactions} />
-              </div>
-
-            </div>
+        <div className="bg-white border-b rounded-b-lg pb-4">
+          <div className="pt-6 p-4">
+            <h3>Transaction history</h3>
           </div>
-        </>)}
 
-
-
-      </>)}
-
-
-
-
+          <div>
+            {selectedWallet && (<DataTable columns={columns} data={selectedWallet?.creditHistory as Transaction[]} />)}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

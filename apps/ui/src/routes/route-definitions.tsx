@@ -7,6 +7,7 @@ import {
 import withNav from '../components/hocs/withNav'
 import Conversions from '../pages/conversions'
 import Wallets from '../pages/wallets'
+import { getWallets } from '../core/requests/wallets';
 
 interface WalletParams {
   wallet?: string;
@@ -27,6 +28,10 @@ export const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
   component: Wallets,
+  loader: getWallets,
+  // preSearchFilters: ()=>{
+
+  // },
   validateSearch: (search: WalletParams): WalletParams => {
     return {
       wallet: search.wallet || undefined,

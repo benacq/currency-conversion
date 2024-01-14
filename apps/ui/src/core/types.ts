@@ -1,4 +1,5 @@
 type Currency = {
+    flag: string;
     id: number;
     code: string;
     name: string;
@@ -10,11 +11,11 @@ type Money = {
 }
 
 export type Transaction = {
-    transactionId: string;
-    transactionType: 'Debit' | 'Credit'
+    id: string;
+    type: 'DEBIT' | 'CREDIT'
     amount: string;
     status: string;
-    date: string;
+    timestamp: string;
 }
 
 

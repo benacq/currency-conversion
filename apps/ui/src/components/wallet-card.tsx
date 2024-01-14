@@ -1,9 +1,10 @@
 import { Link } from '@tanstack/react-router'
 import { indexRoute } from '../routes/route-definitions';
-import { Wallet } from '../core/types';
+import { Wallet, WalletWithTransactions } from '../core/types';
 
 type Props = {
-    wallet: Wallet
+    wallet: Wallet;
+    onSelect: (selectedWallet: WalletWithTransactions) => void;
 }
 
 const WalletCard = (props: Props) => {
@@ -11,10 +12,12 @@ const WalletCard = (props: Props) => {
 
     return (
         <div>
-            <Link search={{ wallet: props.wallet.walletType }} className={`card p-4 ${searchParams.wallet === props.wallet.walletType ? "bg-white1" : "bg-light2"}`}>
+            <Link onClick={()=> props.onSelect(props.wallet as WalletWithTransactions)} search={{ wallet: props.wallet.walletType }} className={`card p-4 ${searchParams.wallet === props.wallet.walletType ? "bg-white1" : "bg-light2"}`}>
                 <div className='flex flex-col justify-between h-full'>
-                    <div className='flex gap-2'>
-                        <div>flag</div>
+                    <div className='flex gap-2 items-center'>
+
+                        {props.wallet.balance.currency.flag ? (<img src={props.wallet.balance.currency.flag} className="h-4 rounded-full" />) : (<p>flag</p>)}
+                        
                         <p className={`text-xsm ${searchParams.wallet !== props.wallet.walletType && "text-gray2"}`}>{props.wallet.walletType}</p>
                     </div>
 

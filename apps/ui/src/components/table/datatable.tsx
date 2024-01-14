@@ -13,6 +13,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         // getPaginationRowModel: getPaginationRowModel()
     })
 
+
     return (
         <>
             <table className="min-w-full divide-y divide-gray-200">

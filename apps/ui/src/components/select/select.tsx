@@ -1,7 +1,6 @@
 import AsyncSelect from 'react-select/async';
 import Select, { components } from 'react-select';
 import { BaseDropdownProps, DropdownType } from './types';
-import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
 import { PiCaretDown, PiCaretUp } from 'react-icons/pi';
 
 
@@ -24,7 +23,7 @@ const DropdownSelect = (props: BaseDropdownProps) => {
         : {
             options: props.options
         };
-
+//formatOptionLabel
     return (
         <SelectComponent
             isDisabled={props.disabled}

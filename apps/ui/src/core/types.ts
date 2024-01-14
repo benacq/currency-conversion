@@ -16,6 +16,7 @@ export type Transaction = {
     amount: string;
     status: string;
     timestamp: string;
+    currencyCode: string;
 }
 
 

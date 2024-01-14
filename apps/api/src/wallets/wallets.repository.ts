@@ -18,13 +18,13 @@ export class WalletsRepository {
   async findAll(): Promise<WalletEntity[]> {
     const wallets = await this.prisma.wallet.findMany({ include: { currency: true, creditHistory: true, debitHistory: true } });
     return wallets.map((wallet) =>
-      new WalletEntity(wallet.id, wallet.currency.code, Money.from(wallet.balance, wallet.currency), wallet.createdAt, wallet.updatedAt, [...wallet.debitHistory, ...wallet.creditHistory])
+      new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, [...wallet.debitHistory, ...wallet.creditHistory])
     )
   }
 
   async findOne(id: string): Promise<WalletEntity> {
     const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true, creditHistory: true, debitHistory: true } });
-    return new WalletEntity(wallet.id, wallet.currency.code, Money.from(wallet.balance, wallet.currency), wallet.createdAt, wallet.updatedAt, [...wallet.debitHistory, ...wallet.creditHistory]);
+    return new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, [...wallet.debitHistory, ...wallet.creditHistory]);
   }
 
   async update(id: string, updateWalletDto: UpdateWalletDto) {
@@ -41,10 +41,6 @@ export class WalletsRepository {
   remove(id: string) {
     return this.prisma.wallet.delete({ where: { id } });
   }
-
-  // transaction(func: any){
-  //   // return this.prisma.$transaction((txn)=>func(txn))
-  // }
 
   async transaction(callback: (txn: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => Promise<any>) {
     await this.prisma.$transaction((txn)=>callback(txn));

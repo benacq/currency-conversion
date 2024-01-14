@@ -21,11 +21,13 @@ function Wallets({ }: Props) {
 
   useEffect(() => {
     if (wallets) {
-      console.log(wallets[0])
-      const defaultSelectedWallet =  wallets[0]
-      console.log(searchParams.wallet)
       if(searchParams.wallet === undefined){
+        const defaultSelectedWallet =  wallets[0]
         navigate({ to: "/", search: { wallet: defaultSelectedWallet.walletType } })
+        setSelectedWallet(defaultSelectedWallet as WalletWithTransactions)
+      }else{
+        const defaultSelectedWallet =  wallets.find((wallet)=> wallet.walletType === searchParams.wallet)
+        console.log(defaultSelectedWallet)
         setSelectedWallet(defaultSelectedWallet as WalletWithTransactions)
       }
     }

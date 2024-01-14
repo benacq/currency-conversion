@@ -24,7 +24,7 @@ export class ExchangeRatesService {
     });
 
     const formatted = {
-      [from]: { [rate.targetCurrency.code]: rate.rate }
+      [from]: { [rate.targetCurrency.code]: parseFloat(rate.rate.toFixed(4)) }
     }
     return formatted;
   }
@@ -39,7 +39,7 @@ export class ExchangeRatesService {
 
     const formattedRate: ExchangeRateObject = rates.reduce((result, item) => {
       const targetCurrencyCode = item.targetCurrency.code;
-      const rate = item.rate;
+      const rate = parseFloat(item.rate.toFixed(4));
 
       if (!result[from]) {
         result[from] = {};
@@ -48,28 +48,6 @@ export class ExchangeRatesService {
       return result;
     }, {});
 
-    console.log(formattedRate)
     return formattedRate;
-
   }
-
-  // create(createExchangeRateDto: CreateExchangeRateDto) {
-  //   return 'This action adds a new exchangeRate';
-  // }
-
-  // findAll() {
-  //   return `This action returns all exchangeRates`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} exchangeRate`;
-  // }
-
-  // update(id: number, updateExchangeRateDto: UpdateExchangeRateDto) {
-  //   return `This action updates a #${id} exchangeRate`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} exchangeRate`;
-  // }
 }

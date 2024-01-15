@@ -21,11 +21,11 @@ export const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: 'amount',
-
     header: 'Amount',
     cell: ({ row }) => {
+      const amount: string = row.getValue("amount");
 
-      return row.getValue("amount");
+      return `${row.getValue("currencyCode")} ${parseFloat(amount).toLocaleString()}`;
     }
   },
   {
@@ -47,6 +47,11 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       return moment(row.getValue('timestamp')).format('MM/DD/YYYY')
     }
+  },
+
+  {
+    accessorKey: 'currencyCode',
+    header: 'Currency',
   },
 
 ]

@@ -4,8 +4,6 @@ import { CreateWalletDto } from "./dto/create-wallet.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { WalletEntity } from "./entities/wallet.entity";
 import { Money } from "src/currency/entities/money";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
 import { NotFoundException } from "./exceptions/customExceptions";
 
 @Injectable()
@@ -17,21 +15,30 @@ export class WalletsRepository {
   }
 
   async findAll(addTransactions: boolean | string): Promise<WalletEntity[]> {
-    let transactionHistoryFlag = false;
+    let transactionHistoryFlag = addTransactions === "true" ? true : false;
 
-    if (addTransactions === "true") {
-      transactionHistoryFlag = true;
-    } else {
-      transactionHistoryFlag = false;
-    }
 
     try {
-      const wallets = await this.prisma.wallet.findMany({ include: { currency: true, creditHistory: transactionHistoryFlag, debitHistory: transactionHistoryFlag } });
-      if (wallets.length === 0) {
-        console.info("Wallet is empty")
+      const wallets = await this.prisma.wallet.findMany({
+        include: {
+          currency: true,
+          creditHistory: transactionHistoryFlag,
+          debitHistory: transactionHistoryFlag
+        }
+      });
+
+      return wallets.map((wallet) => {
+        if (transactionHistoryFlag) {
+          wallet.creditHistory = wallet.creditHistory.filter(
+            (transaction) => transaction.currencyCode === wallet.currency.code
+          );
+          wallet.debitHistory = wallet.debitHistory.filter(
+            (transaction) => transaction.currencyCode === wallet.currency.code
+          );
+        }
+
+        return new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, transactionHistoryFlag ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined)
       }
-      return wallets.map((wallet) =>
-        new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, transactionHistoryFlag ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined)
       )
     } catch (e) {
       console.error(e)
@@ -41,13 +48,7 @@ export class WalletsRepository {
 
 
   async findOne(id: string, addTransactions: boolean | string): Promise<WalletEntity> {
-    let transactionHistoryFlag = false;
-
-    if (addTransactions === "true") {
-      transactionHistoryFlag = true;
-    } else {
-      transactionHistoryFlag = false;
-    }
+    let transactionHistoryFlag = addTransactions === "true" ? true : false;
 
     try {
       const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true, creditHistory: transactionHistoryFlag, debitHistory: transactionHistoryFlag } });
@@ -75,7 +76,9 @@ export class WalletsRepository {
     return this.prisma.wallet.delete({ where: { id } });
   }
 
-  async transaction(callback: (txn: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => Promise<any>) {
-    await this.prisma.$transaction((txn) => callback(txn));
+
+  async transaction(callback: any) {
+    this.prisma.$transaction([])
+    // TODO -> Call debit and credit inside a transaction
   }
 }

@@ -34,14 +34,12 @@ export class WalletsService {
 
     if (wallet.getBalance() >= amount) {
       this.walletRepo.update(wallet.id, { balance: wallet.getBalance() - amount } as UpdateWalletDto)
-
       this.transactionService.create({ ...transactionData, status: TransactionStatus.COMPLETED })
     } else {
       this.transactionService.create({ ...transactionData, status: TransactionStatus.FAILED })
       throw new TransactionException("You do not have sufficient fund to perform this transaction")
     }
   }
-
 
 
   async convert(sourceWalletId: string, targetWalletId: string, amount: number): Promise<void> {
@@ -52,9 +50,9 @@ export class WalletsService {
 
     const rate = await this.exchangeRateService.getRate(sourceWallet.walletType, targetWallet.walletType)
     const rateValue = rate[sourceWallet.walletType][targetWallet.walletType]
-    this.debit(sourceWallet, amount, targetWalletId)
-    this.credit(targetWallet, Money.from(amount * rateValue, targetWallet.balance.getCurrency()), sourceWalletId);
 
+    this.debit(sourceWallet, amount, targetWalletId),
+    this.credit(targetWallet, Money.from(amount * rateValue, targetWallet.balance.getCurrency()), sourceWalletId)
   }
 
 

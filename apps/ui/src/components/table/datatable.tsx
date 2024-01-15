@@ -1,4 +1,4 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -10,7 +10,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        // getPaginationRowModel: getPaginationRowModel()
+        getPaginationRowModel: getPaginationRowModel(),
+        initialState:{
+            columnVisibility: {"currencyCode": false}
+        }
     })
 
 
@@ -47,12 +50,12 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </table>
 
             <div className="flex justify-between px-5 mt-6">
-                <div>page no</div>
-                <div className="flex">
-                    <button>
+                <div>Page 1 of 10</div>
+                <div className="flex gap-3">
+                    <button className="border py-1 px-3 rounded-lg">
                         Previous
                     </button>
-                    <button>
+                    <button className="border py-1 px-3 rounded-lg">
                         Next
                     </button>
                 </div>

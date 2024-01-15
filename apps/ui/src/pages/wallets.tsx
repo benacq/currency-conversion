@@ -4,12 +4,12 @@ import { columns } from "../components/table/columns"
 import { DataTable } from "../components/table/datatable"
 import WalletCard from "../components/wallet-card"
 import { Transaction, WalletWithTransactions } from "../core/types"
-import Conversions from "./conversions"
 import { LuArrowLeftRight } from "react-icons/lu";
 import React, { useEffect, useState } from "react"
 import { indexRoute } from "../routes/route-definitions"
 import { GoSearch } from "react-icons/go";
 import { LiaCloudDownloadAltSolid } from "react-icons/lia";
+import Convert from "./convert"
 
 
 type Props = {}
@@ -39,7 +39,7 @@ function Wallets({ }: Props) {
   return (
     <div>
       <Modal title="Convert funds">
-        <Conversions />
+        <Convert />
       </Modal>
       <div className="flex justify-between items-center">
         <div>

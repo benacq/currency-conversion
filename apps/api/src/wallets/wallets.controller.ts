@@ -21,12 +21,12 @@ export class WalletsController {
 
   @Get()
   findAll(@Query('includeTransactions') addTransactions: boolean) {
-    return this.walletsService.findAll(addTransactions ?? false);
+    return this.walletsService.findAll(addTransactions);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string, @Query('includeTransactions') addTransactions: boolean) {
-    return this.walletsService.findOne(id, addTransactions ?? false);
+    return this.walletsService.findOne(id, addTransactions);
   }
 
   @Patch(':id')

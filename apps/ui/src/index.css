@@ -2,12 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* input[type=number].no-spinner::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
--webkit-appearance: none; 
- margin: 0; 
-} */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 10px;
+  font-size: 17px;
+  top: 10px;
+}
 
+input::-webkit-datetime-edit {
+  position: relative;
+  left: 2px;
+}
+
+input::-webkit-datetime-edit-fields-wrapper {
+  position: relative;
+  left: 15px;
+}
 
 @layer base {
   body{
@@ -27,7 +37,7 @@ input[type=number]::-webkit-outer-spin-button {
     @apply w-full h-full rounded-r-lg outline-none px-2
   }
 
-  button{
+  button.custom{
     @apply h-[44px] bg-orange1 w-full rounded-lg text-white1
   }
 }

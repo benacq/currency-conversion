@@ -28,7 +28,7 @@ export const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
   component: Wallets,
-  loader: getWallets,
+  loader: () => getWallets(true),
   // preSearchFilters: ()=>{
 
   // },

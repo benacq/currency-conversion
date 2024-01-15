@@ -6,10 +6,8 @@ export interface ConvertionPayload {
     amount: number;
 }
 export async function convert(payload: ConvertionPayload): Promise<any> {
-    console.log(payload)
     return axiosInstance.post("/wallets/convert", payload)
         .then((res: AxiosResponse<any, any>) => {
-            console.log(res.data)
             return res.data;
         });
 }

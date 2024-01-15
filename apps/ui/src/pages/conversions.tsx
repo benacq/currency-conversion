@@ -2,23 +2,16 @@ import { useState } from "react"
 import DropdownSelect from "../components/select/select"
 import { DropdownType } from "../components/select/types"
 import { getWallets } from "../core/requests/wallets"
-import * as Yup from "yup";
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import useCustomMutation from "../components/hooks/useCustomMutation";
 import { ConvertionPayload, convert } from "../core/requests/convert";
 import useCustomQuery from "../components/hooks/useCustomQuery";
 import { getExchangeRate } from "../core/requests/exchange-rates";
 import { findWalletById, transformWallet } from "../core/utils/functions";
 import { Wallet } from "../core/types";
+import { toast } from "react-toastify";
 
 type Props = {}
-
-const validationSchema = Yup.object({
-  sourceAmount: Yup.string().min(1, 'Enter amount').required("Please enter amount"),
-  targetAmount: Yup.string().min(1, 'Enter amount').required("Please enter amount"),
-});
-
 
 function Conversions({ }: Props) {
   const [wallets, setWallet] = useState<Record<string, Record<string, string>>>({ sourceWallet: {}, targetWallet: {} })
@@ -34,7 +27,7 @@ function Conversions({ }: Props) {
 
 
   const walletsQuery = useCustomQuery(["wallets"],
-    getWallets,
+    () => getWallets(false),
     {
       refetchOnWindowFocus: false,
       retry: 2
@@ -46,31 +39,31 @@ function Conversions({ }: Props) {
     handleSubmit,
     reset,
     setValue,
-    // formState: { errors },
   } = useForm<{ sourceAmount: string, targetAmount: string }>({
-    resolver: yupResolver(validationSchema)
   });
+
 
   const mutation = useCustomMutation<any, ConvertionPayload>(
     convert,
     {
-      // onSuccess: (value) => {
-      //     indexRoute.router?.load()
-      // }
+      onSuccess: () => {
+        toast.success("Conversion successful", { position: "top-left" });
+        // window.location.reload();
+        history.back()
+      }
     }
   )
 
   const onSubmit = (data: any) => {
     const payload = { sourceWalletId: wallets["sourceWallet"]["value"], targetWalletId: wallets["targetWallet"]["value"], amount: parseFloat(data["sourceAmount"]) } as ConvertionPayload
     mutation.mutateAsync(payload);
-    // console.log(data)
   };
 
 
   return (
 
     <>
-      {walletsQuery.isLoading ? (<>
+      {walletsQuery?.isLoading ? (<>
         <p>Loading...</p>
       </>) : (<>
         {walletsQuery.isError ? (<>
@@ -184,7 +177,13 @@ function Conversions({ }: Props) {
                   </div>
                 </div>
 
-                <button className="mt-10">Convert</button>
+                <button className="mt-10 custom">
+                  {mutation.isPending ? (<>
+                    Converting...
+                  </>) : (<>
+                    Convert
+                  </>)}
+                </button>
               </div>
             </div>
           </form>

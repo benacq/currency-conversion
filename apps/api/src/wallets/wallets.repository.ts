@@ -16,14 +16,22 @@ export class WalletsRepository {
     return 'This action adds a new wallet';
   }
 
-  async findAll(addTransactions: boolean): Promise<WalletEntity[]> {
+  async findAll(addTransactions: boolean | string): Promise<WalletEntity[]> {
+    let transactionHistoryFlag = false;
+
+    if (addTransactions === "true") {
+      transactionHistoryFlag = true;
+    } else {
+      transactionHistoryFlag = false;
+    }
+
     try {
-      const wallets = await this.prisma.wallet.findMany({ include: { currency: true, creditHistory: Boolean(addTransactions), debitHistory: Boolean(addTransactions) } });
+      const wallets = await this.prisma.wallet.findMany({ include: { currency: true, creditHistory: transactionHistoryFlag, debitHistory: transactionHistoryFlag } });
       if (wallets.length === 0) {
         console.info("Wallet is empty")
       }
       return wallets.map((wallet) =>
-        new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, addTransactions ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined)
+        new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, transactionHistoryFlag ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined)
       )
     } catch (e) {
       console.error(e)
@@ -31,10 +39,19 @@ export class WalletsRepository {
     }
   }
 
-  async findOne(id: string, addTransactions: boolean): Promise<WalletEntity> {
+
+  async findOne(id: string, addTransactions: boolean | string): Promise<WalletEntity> {
+    let transactionHistoryFlag = false;
+
+    if (addTransactions === "true") {
+      transactionHistoryFlag = true;
+    } else {
+      transactionHistoryFlag = false;
+    }
+
     try {
-      const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true, creditHistory: Boolean(addTransactions), debitHistory: Boolean(addTransactions) } });
-      return new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, addTransactions ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined);
+      const wallet = await this.prisma.wallet.findUnique({ where: { id }, include: { currency: true, creditHistory: transactionHistoryFlag, debitHistory: transactionHistoryFlag } });
+      return new WalletEntity(wallet.id, wallet.currency.code, Money.from(parseFloat(wallet.balance.toFixed(2)), wallet.currency), wallet.createdAt, wallet.updatedAt, transactionHistoryFlag ? [...wallet.debitHistory, ...wallet.creditHistory] : undefined);
     } catch (error) {
       console.error(error)
       throw new NotFoundException("This wallet does not exist in our records")

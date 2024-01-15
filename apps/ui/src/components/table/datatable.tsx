@@ -37,7 +37,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 <tbody className="divide-y divide-gray-200">
                     {table.getRowModel().rows.map((row) =>
                     (
-                        <tr key={row.id} className="[&>td]:px-6 [&>td]:py-4 text-xsm !border-b">
+                        <tr key={row.id} className="[&>td]:px-6 [&>td]:py-4 text-xsm text-gray3 !border-b">
 
                             {row.getVisibleCells().map((cell) => (
                                 <td key={cell.id}>
